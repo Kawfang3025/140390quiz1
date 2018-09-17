@@ -7,6 +7,7 @@ var connection = mysql.createConnection({
   password : 'abc123**',
   database : 'db140390'
 });
+connection.connect();
 app.set('view engine', 'ejs');
 //home
 app.get('/', function (req, res) {
@@ -14,31 +15,28 @@ app.get('/', function (req, res) {
 });
 //all list of student
 app.get('/students', function (req, res) {
-    connection.connect()
+    
     var sql ='select * from students';
 
     connection.query(sql,function (err, rows, fields){
         if (err) throw err
-        res.render('pages/students',{ students:rows});
+        res.render('pages/students',{students:rows});
        
     console.log('The student is: ', rows[0].students)
+    
 })
-
-connection.end()
-
 });
 
 //all list of subjects
 app.get('/subjects', function (req, res) {
-    connection.connect()
+    
     var sql ='select * from subjects';
     connection.query(sql,function (err, rows, fields){
         if (err) throw err
-        res.render('pages/subjects',{ subjects:rows});
-    console.log('The subject is: ', rows[0].subjects)
-})
-connection.end()
+        res.render('pages/subjects',{subjects:rows});
+    console.log('The subject is: ', rows[0].subjects);
 
+})
 });
 
 app.get('/index', function (req, res) {
