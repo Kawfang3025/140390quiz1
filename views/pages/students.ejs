@@ -3,17 +3,20 @@
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Student ID</th>
                 <th>Title</th>
-                <th>Price</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+
             </tr>
         </thead>
         <tbody>
-        <% products.forEach(function(product){ %>
+        <% students.forEach(function(students){ %>
         <tr>
-            <td scope="row"><%= product.id%></td>
-            <td><%= product.title%></td>
-            <td><%= product.price%></td>
+            <td scope="row"><%= students.sid%></td>
+            <td><%= students.title%></td>
+            <td><%= students.firstname%></td>
+            <td><%= students.lastname%></td>
         </tr>
         <% }); %>
         </tbody>

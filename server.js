@@ -1,3 +1,15 @@
+var express = require('express');
+
+var mysql = require('mysql')
+var connection = mysql.createConnection({
+  host     : 'www.db4free.net',
+  user     : 's140390',
+  password : 'abc123**',
+  database : 'db140390'
+});
+
+
+var app = express();
 
 app.set('view engine', 'ejs');
 app.get('/', function (req, res) {
@@ -10,52 +22,29 @@ app.get('/about', function (req, res) {
     var bdate = '06/01/1998';
     res.render('pages/about', { fullname: name, hobbies: hobbies, bdate: bdate });
 });
-app.get('/products', function (req, res) {
-    var id = req.param('id');
-    var sql = 'select * from products';
 
-    if (id) {
-            sql +=' where id ='+id;
-    }
-        db.any(sql)
-            .then(function (data) {
-                console.log('DATA:' + data);
-                res.render('pages/products', { products: data });
-            })
-            .catch(function (error) {
-                console.log('ERROR:' + error);
-            })
-});
-app.get('/users', function (req, res) {
-    db.any('select * from users')
-        .then(function (data) {
-            console.log('DATA:' + data);
-            res.render('pages/user', { users: data });
-        })
-        .catch(function (error) {
-            console.log('ERROR:' + error);
-        })
-});
-app.get('/users/:id', function (req, res) {
-    var id = req.params.id;
-    var sql = 'select * from users';
 
-    if (id) {
-            sql +=' where id ='+id;
-    }
+app.get('/students', function (req, res) {
+    connection.connect()
+    var sql ='select * from students';
 
-    db.any(sql)
-        .then(function (data) {
-            console.log('DATA:' + data);
-            res.render('pages/user', { users: data });
-        })
-        .catch(function (error) {
-            console.log('ERROR:' + error);
-        })
+    connection.query(sql,function (err, rows, fields){
+        if (err) throw err
+        res.render('pages/students',{ students:rows});
+       
+    console.log('The student is: ', rows[0].students)
+})
+
+connection.end()
+
 });
+
+
 
 app.get('/index', function (req, res) {
     res.render('pages/index');
 });
-console.log('App is running at http://localhost:8080');
-app.listen(8080);
+console.log('App is running at http://localhost:8081');
+
+
+app.listen(8081);
